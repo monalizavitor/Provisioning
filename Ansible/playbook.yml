@@ -7,12 +7,20 @@
       - virtualenv
       update_cache: yes
     become: yes
-  - name: Instalando depencias com pip (Django e Django Rest)
+  - name: Instalando dependências com pip (Django e Django Rest)
     pip:
-      virtualenv: /home/ubuntu/django/venv
+      virtualenv: /home/ubuntu/projeto/venv
       name:
         - django
         - djangorestframework
+  - name: Iniciando o projeto 
+    shell: '. /home/ubuntu/projeto/venv/bin/activate; django-admin startproject setup /home/ubuntu/projeto'
+  - name: Alterando o arquivo 'hosts' do diretório 'settings'
+    lineinfile:
+      path: /home/ubuntu/projeto/setup/settings.py
+      regexp: 'ALLOWED_HOSTS'
+      line: 'ALLOWED_HOSTS = ["*"]'
+      backrefs: yes
     
 
     
